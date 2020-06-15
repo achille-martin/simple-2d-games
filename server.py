@@ -4,8 +4,8 @@ import sys
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server = '192.168.39.101'
-port = 5555
+server = ''
+port =  # The TCP port for communication on your server
 
 server_ip = socket.gethostbyname(server)
 
