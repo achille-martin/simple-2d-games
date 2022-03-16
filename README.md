@@ -21,6 +21,7 @@ Latest update: 15/06/2020
 
 # Further game ideas
 
+* Cat and mouse N players
 * Connect4 2D
 * Connect4 3D
 * Little tanks N players
