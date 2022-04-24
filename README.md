@@ -2,13 +2,27 @@
 Simple 2D pygame.
 This is the start of a python game project.
 
-# Running The Game
+# Requirements
+* Make sure that python3 is installed (packages should work with python2 as well)
+> python3 --version
+* Make sure that you have installed all necessary packages:
+> pip3 install -r <path>/requirements.txt
+* Make sure that you have added your project path to the PYTHONPATH:
+> export PYTHONPATH="${PYTHONPATH}:<project_path>/"
+
+# List of Games
+
+## Multiplayer Chase
+
+### Introduction
+This game consists in chasing another player in a multiplayer online game.
+
+### Setup
 To run the game you will need to run an instane of *server.py* on one machine. Then you can run instances of *run.py* on other machines to connect.
 
 You need to change the **server** address in both *server.py* and *network.py* to be the IPV4 address of your machine or the server ips you are using.
 
 # TODO List
-
 Latest update: 15/06/2020
 
 | Task  | State  |
@@ -18,6 +32,14 @@ Latest update: 15/06/2020
 | Improve the robustness of the simple 2D square movement game for 2 players | Not started |
 | Implement the simple 2D square movement game for N players (add names to the squares for instance to differentiate them) | Not started |
 | Implement the shooting mechanism for the squares, for N players | Not started |
+
+# Fish Adventure
+
+### Introduction
+This game consists in embodying a fish and swim in a virtual space.
+
+### Setup
+
 
 # Further game ideas
 

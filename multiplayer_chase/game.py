@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+
 import pygame
-from network import Network
+from multiplayer_chase.network import Network
 
 
 class Player():

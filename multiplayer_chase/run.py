@@ -1,4 +1,6 @@
-import game
+#!/usr/bin/env python3
+
+from multiplayer_chase import game
 
 if __name__ == "__main__":
     g = game.Game(500,500)
