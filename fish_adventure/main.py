@@ -7,24 +7,24 @@ class Player():
     # Measure definition for player's avatar
     width_body = 50
     width_side_fin = 20
-    width_back_fin = 10
+    width_tail_fin = 10
     width_face = 10
     width_eye = 2.5
     height_body = 20
     height_side_fin = 10
-    height_back_fin = 30
+    height_tail_fin = 10
     height_face = 20
     height_eye = 2.5
     colour_body = (0, 0, 255)
     colour_side_fin = (0, 100, 200)
-    colour_back_fin = (0, 0, 0)
+    colour_tail_fin = (0, 0, 0)
     colour_face = (200, 150, 200)
     colour_eye = (255, 255, 255)
 
     def __init__(self, startx, starty):
         self.x = startx
         self.y = starty
-        self.width = self.width_body + self.width_back_fin
+        self.width = self.width_body + self.width_tail_fin
         self.height = self.height_body + self.height_side_fin
         self.linear_velocity = 1
         self.colour_default = (0, 0, 255)
@@ -36,14 +36,14 @@ class Player():
         pygame.draw.rect(surface, self.colour_side_fin, (self.x - 1*self.width_body/5, self.y - self.height_body, self.width_side_fin, self.height_side_fin))
         # Bottom Fin
         pygame.draw.rect(surface, self.colour_side_fin, (self.x - 1*self.width_body/5, self.y + self.height_body/2, self.width_side_fin, self.height_side_fin))
-        # Back Fin
-        pygame.draw.rect(surface, self.colour_back_fin, (self.x - 3*self.width_body/5, self.y - self.height_body/1.5, self.width_back_fin, self.height_back_fin))
+        # Tail Fin
+        pygame.draw.rect(surface, self.colour_tail_fin, (self.x - 3*self.width_body/5, self.y - self.height_body/4, self.width_tail_fin, self.height_tail_fin))
         # Face
         pygame.draw.rect(surface, self.colour_face, (self.x + 2*self.width_body/5, self.y - self.height_body/2, self.width_face, self.height_face))
         # Top Eye
-        pygame.draw.rect(surface, self.colour_back_fin, (self.x + 2.5*self.width_body/5, self.y - self.height_body/3.5, self.width_eye, self.height_eye))
+        pygame.draw.rect(surface, self.colour_tail_fin, (self.x + 2.5*self.width_body/5, self.y - self.height_body/3.5, self.width_eye, self.height_eye))
         # Bottom Eye
-        pygame.draw.rect(surface, self.colour_back_fin, (self.x + 2.5*self.width_body/5, self.y + self.height_body/4.5, self.width_eye, self.height_eye))
+        pygame.draw.rect(surface, self.colour_tail_fin, (self.x + 2.5*self.width_body/5, self.y + self.height_body/4.5, self.width_eye, self.height_eye))
    
     def move(self, mv_type):
         # mv_type is either 't' for translation or 'r' for rotation
