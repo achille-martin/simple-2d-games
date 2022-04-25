@@ -3,28 +3,50 @@
 import pygame
 
 class Player():
-    width = height = 25
+    
+    # Measure definition for player's avatar
+    width_body = 50
+    width_side_fin = 20
+    width_back_fin = 10
+    width_face = 10
+    width_eye = 2.5
+    height_body = 20
+    height_side_fin = 10
+    height_back_fin = 30
+    height_face = 20
+    height_eye = 2.5
+    colour_body = (0, 0, 255)
+    colour_side_fin = (0, 100, 200)
+    colour_back_fin = (0, 0, 0)
+    colour_face = (200, 150, 200)
+    colour_eye = (255, 255, 255)
 
-    def __init__(self, startx, starty, color=(255,0,0)):
+    def __init__(self, startx, starty):
         self.x = startx
         self.y = starty
+        self.width = self.width_body + self.width_back_fin
+        self.height = self.height_body + self.height_side_fin
         self.linear_velocity = 1
-        self.color = color
+        self.colour_default = (0, 0, 255)
 
     def draw(self, surface):
-        pygame.draw.rect(surface, 
-                         self.color,
-                         (self.x - self.width/2, 
-                          self.y - self.height/2, 
-                          self.width, 
-                          self.height),
-                         0)
-
+        # Body
+        pygame.draw.rect(surface, self.colour_body, (self.x - 2*self.width_body/5, self.y - self.height_body/2, self.width_body, self.height_body))
+        # Top Fin
+        pygame.draw.rect(surface, self.colour_side_fin, (self.x - 1*self.width_body/5, self.y - self.height_body, self.width_side_fin, self.height_side_fin))
+        # Bottom Fin
+        pygame.draw.rect(surface, self.colour_side_fin, (self.x - 1*self.width_body/5, self.y + self.height_body/2, self.width_side_fin, self.height_side_fin))
+        # Back Fin
+        pygame.draw.rect(surface, self.colour_back_fin, (self.x - 3*self.width_body/5, self.y - self.height_body/1.5, self.width_back_fin, self.height_back_fin))
+        # Face
+        pygame.draw.rect(surface, self.colour_face, (self.x + 2*self.width_body/5, self.y - self.height_body/2, self.width_face, self.height_face))
+        # Top Eye
+        pygame.draw.rect(surface, self.colour_back_fin, (self.x + 2.5*self.width_body/5, self.y - self.height_body/3.5, self.width_eye, self.height_eye))
+        # Bottom Eye
+        pygame.draw.rect(surface, self.colour_back_fin, (self.x + 2.5*self.width_body/5, self.y + self.height_body/4.5, self.width_eye, self.height_eye))
+   
     def move(self, mv_type):
-        """
-        :param mv_type: 't' or 'r' (translation, rotation)
-        :return: None
-        """
+        # mv_type is either 't' for translation or 'r' for rotation
         if mv_type == 't':
             self.x += self.linear_velocity
         elif dirn == 'r':
@@ -66,7 +88,6 @@ class Game:
             if keys[pygame.K_LEFT]:
                 pass
 
-            # Update Canvas
             self.canvas.draw_background()
             self.player.draw(self.canvas.get_canvas())
             self.canvas.update()
@@ -80,16 +101,10 @@ class Canvas:
         self.height = h
         self.screen = pygame.display.set_mode((w,h))
         pygame.display.set_caption(name)
-
+    
     @staticmethod
     def update():
         pygame.display.update()
-
-    def draw_text(self, text, size, x, y):
-        pygame.font.init()
-        font = pygame.font.SysFont("comicsans", size)
-        render = font.render(text, 1, (0,0,0))
-        self.screen.draw(render, (x,y))
 
     def get_canvas(self):
         return self.screen
