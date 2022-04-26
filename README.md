@@ -22,7 +22,7 @@ To run the game you will need to run an instane of *server.py* on one machine. T
 
 You need to change the **server** address in both *server.py* and *network.py* to be the IPV4 address of your machine or the server ips you are using.
 
-# TODO List
+### Development ideas
 Latest update: 15/06/2020
 
 | Task  | State  |
