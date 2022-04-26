@@ -2,6 +2,7 @@
 
 import pygame
 import math
+import random
 
 class Player():
     
@@ -143,7 +144,7 @@ class Game:
         self.player = Player((30, 20), (50, 50), 0)
         self.canvas = Canvas(self.width, self.height)
 
-    def run(self):
+    def run_manual(self):
         clock = pygame.time.Clock()
         run = True
         while run:
@@ -193,11 +194,100 @@ class Game:
             # Clear canvas
             self.canvas.draw_background()
             
-            # Debug prints
-            print('----')
-            print('Player center x = ' + str(self.player.surface_center_x) + ', y = ' + str(self.player.surface_center_y))
-            print('Player orientation angle = ' + str(self.player.surface_angle_deg))
-            print('Player size w = ' + str(self.player.width) + ', h = ' + str(self.player.height))
+            # Draw player's avatar
+            self.player.draw_onto_surface()
+            
+            # Add surface to canvas
+            self.player.display_onto_canvas(self.canvas.get_canvas())
+            
+            # Display canvas
+            self.canvas.update()
+
+        pygame.quit()
+
+    def run_automatic(self):
+        clock = pygame.time.Clock()
+        run = True
+        
+        # Setting motion params
+        is_angle_reached = 1
+        angle_desired_deg = 0
+        rot_direction_desired = 0
+        is_distance_reached = 1
+        distance_desired = 0
+        distance_travelled = 0
+        iteration_max = 5
+                
+        while run:
+            clock.tick(60)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        run = False
+            
+            # Continuous forward motion
+            self.player.move_player('t')
+            
+            # Random angular motion
+            if is_angle_reached and is_distance_reached:
+                angle_desired_deg = random.randint(0, 359)
+                rot_direction_desired = random.randint(0, 2)
+                distance_desired = random.randint(0, int(self.width/8))
+                # Making sure that we don't ask for a distance outside the canvas' boundaries
+                iteration = 1
+                while self.player.surface_center_x + distance_desired >= self.width \
+                    or self.player.surface_center_x - distance_desired <= 0 \
+                    or self.player.surface_center_y + distance_desired >= self.height \
+                    or self.player.surface_center_y - distance_desired <= 0:
+                    if iteration > iteration_max:
+                        rot_direction_desired = random.randint(0, 1)
+                        break
+                    distance_desired = random.randint(0, int(self.width/8))
+                    iteration+=1
+                is_angle_reached = 0
+                is_distance_reached = 0
+            else:
+                if rot_direction_desired == 0:
+                    self.player.move_player('r', 'counterclockwise')
+                elif rot_direction_desired == 1:
+                    self.player.move_player('r', 'clockwise')
+                elif rot_direction_desired == 2:
+                    # Keep going on a straight line
+                    distance_travelled+=1
+                else:
+                    # Not coded
+                    pass
+                if self.player.surface_angle_deg == angle_desired_deg:
+                    is_angle_reached = 1
+                    is_distance_reached = 1
+                if distance_travelled == distance_desired:
+                    is_angle_reached = 1
+                    is_distance_reached = 1
+                    distance_travelled = 0
+            
+            # Nudging the player to avoid getting it stuck to a canvas boundary
+            if self.player.surface_center_x + self.player.width/2 >= self.width - self.player.linear_velocity:
+                self.player.surface_x -= self.player.linear_velocity
+                self.player.surface_center_x -= self.player.linear_velocity
+
+            if self.player.surface_center_x - self.player.width/2 <= self.player.linear_velocity:
+                self.player.surface_x += self.player.linear_velocity
+                self.player.surface_center_x += self.player.linear_velocity
+            
+            if self.player.surface_center_y + self.player.width/2 >= self.height - self.player.linear_velocity:
+                self.player.surface_y -= self.player.linear_velocity
+                self.player.surface_center_y -= self.player.linear_velocity
+            
+            if self.player.surface_center_y - self.player.width/2 <= self.player.linear_velocity:
+                self.player.surface_y += self.player.linear_velocity
+                self.player.surface_center_y += self.player.linear_velocity
+            
+            # Clear canvas
+            self.canvas.draw_background()
             
             # Draw player's avatar
             self.player.draw_onto_surface()
@@ -228,6 +318,23 @@ class Canvas:
         self.screen.fill((255,255,255))
 
 if __name__ == "__main__":
-
+    
+    # Instantiating the game
     g = Game(500,500)
-    g.run()
+    
+    # Startup guide
+    print('\n*** WELCOME to the Fish Adventure Game ***\n')
+    fish_control_input = input('Would you like to let the fish live its own life (0) or control the fish (1) ? ')
+    if (fish_control_input == '0'):
+        print('\nThe fish will move on its own')
+        print('Press ESCAPE to quit the game')
+        g.run_automatic()
+    elif (fish_control_input == '1'):
+        print('\nTo control the fish, use: ')
+        print('* UP arrow to go forward')
+        print('* RIGHT arrow to turn clockwise')
+        print('* LEFT arrow to turn counterclockwise')
+        print('Press ESCAPE to quit the game')
+        g.run_manual()    
+    else:
+        exit()
