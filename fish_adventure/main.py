@@ -213,9 +213,11 @@ class Game:
         is_angle_reached = 1
         angle_desired_deg = 0
         rot_direction_desired = 0
+        angle_precision = 5
         is_distance_reached = 1
         distance_desired = 0
         distance_travelled = 0
+        distance_precision = 5
         iteration_max = 5
                 
         while run:
@@ -239,10 +241,10 @@ class Game:
                 distance_desired = random.randint(0, int(self.width/8))
                 # Making sure that we don't ask for a distance outside the canvas' boundaries
                 iteration = 1
-                while self.player.surface_center_x + distance_desired >= self.width \
-                    or self.player.surface_center_x - distance_desired <= 0 \
-                    or self.player.surface_center_y + distance_desired >= self.height \
-                    or self.player.surface_center_y - distance_desired <= 0:
+                while self.player.surface_center_x + self.player.width/2 + distance_desired >= self.width \
+                    or self.player.surface_center_x - self.player.width/2 - distance_desired <= 0 \
+                    or self.player.surface_center_y + self.player.width/2 + distance_desired >= self.height \
+                    or self.player.surface_center_y - self.player.width/2 - distance_desired <= 0:
                     if iteration > iteration_max:
                         rot_direction_desired = random.randint(0, 1)
                         break
@@ -261,10 +263,12 @@ class Game:
                 else:
                     # Not coded
                     pass
-                if self.player.surface_angle_deg == angle_desired_deg:
+                if self.player.surface_angle_deg >= angle_desired_deg - angle_precision \
+                    and self.player.surface_angle_deg <= angle_desired_deg + angle_precision:
                     is_angle_reached = 1
                     is_distance_reached = 1
-                if distance_travelled == distance_desired:
+                if distance_travelled >= distance_desired - distance_precision \
+                    and distance_travelled <= distance_desired + distance_precision:
                     is_angle_reached = 1
                     is_distance_reached = 1
                     distance_travelled = 0
