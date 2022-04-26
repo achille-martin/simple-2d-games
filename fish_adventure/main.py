@@ -160,7 +160,12 @@ class Game:
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_UP]:
-                self.player.move_player('t')
+                # Checking canvas constraints
+                if self.player.surface_center_x + self.player.width/2 < self.width - self.player.linear_velocity \
+                    and self.player.surface_center_x - self.player.width/2 > self.player.linear_velocity \
+                    and self.player.surface_center_y + self.player.width/2 < self.height - self.player.linear_velocity \
+                    and self.player.surface_center_y - self.player.width/2 > self.player.linear_velocity:
+                    self.player.move_player('t')
 
             if keys[pygame.K_RIGHT]:
                 self.player.move_player('r', 'clockwise')
@@ -168,12 +173,29 @@ class Game:
             if keys[pygame.K_LEFT]:
                 self.player.move_player('r', 'counterclockwise')
             
+            # Nudging the player to avoid getting it stuck to a canvas boundary
+            if self.player.surface_center_x + self.player.width/2 >= self.width - self.player.linear_velocity:
+                self.player.surface_x -= self.player.linear_velocity
+                self.player.surface_center_x -= self.player.linear_velocity
+
+            if self.player.surface_center_x - self.player.width/2 <= self.player.linear_velocity:
+                self.player.surface_x += self.player.linear_velocity
+                self.player.surface_center_x += self.player.linear_velocity
+            
+            if self.player.surface_center_y + self.player.width/2 >= self.height - self.player.linear_velocity:
+                self.player.surface_y -= self.player.linear_velocity
+                self.player.surface_center_y -= self.player.linear_velocity
+            
+            if self.player.surface_center_y - self.player.width/2 <= self.player.linear_velocity:
+                self.player.surface_y += self.player.linear_velocity
+                self.player.surface_center_y += self.player.linear_velocity
+            
             # Clear canvas
             self.canvas.draw_background()
             
             # Debug prints
             print('----')
-            print('Player centre x = ' + str(self.player.surface_center_x) + ', y = ' + str(self.player.surface_center_y))
+            print('Player center x = ' + str(self.player.surface_center_x) + ', y = ' + str(self.player.surface_center_y))
             print('Player orientation angle = ' + str(self.player.surface_angle_deg))
             print('Player size w = ' + str(self.player.width) + ', h = ' + str(self.player.height))
             
