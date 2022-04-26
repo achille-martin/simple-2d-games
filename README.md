@@ -40,6 +40,8 @@ This game consists in embodying a fish and swim in a virtual space.
 
 ### Setup
 
+To run the game, start main.py.
+You will then be prompted with a mode in the terminal.
 
 # Further game ideas
 
