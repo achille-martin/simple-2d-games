@@ -119,6 +119,9 @@ class Player():
     def rotate_surface(self, canvas, surface, canvas_point, surface_point, angle):
         # The surface_point defines a point on the surface around which to rotate the surface
         # The canvas_point defines a point on the canvas at which the surface_point is placed
+        
+        # The following piece of code is inspired from Rabbid76 
+        # Link: https://github.com/Rabbid76/PyGameExamplesAndAnswers/blob/master/documentation/pygame/pygame_surface_rotate.md
             
         # offset from pivot to center
         surface_rect = surface.get_rect(topleft = (canvas_point[0] - surface_point[0], canvas_point[1] - surface_point[1]))
