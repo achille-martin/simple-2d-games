@@ -33,6 +33,9 @@ Latest update: 15/06/2020
 | Implement the simple 2D square movement game for N players (add names to the squares for instance to differentiate them) | Not started |
 | Implement the shooting mechanism for the squares, for N players | Not started |
 
+### Credits
+The python networking concept is inspired from TechWithTim thanks to his [online multiplayer games tutorial](https://www.techwithtim.net/tutorials/python-online-game-tutorial).
+
 # Fish Adventure
 
 ### Introduction
